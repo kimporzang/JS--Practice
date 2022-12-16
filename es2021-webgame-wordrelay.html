@@ -23,7 +23,7 @@
         const numPlayer = prompt('몇 명이 참가하시나요?')
         
         const onClickButton = ()=>{
-            if(!word){
+            if(newWord.length === 3 && (!word || 현재단어[0] === word[word.length - 1])){
                 word = newWord;
                 $word.textContent = word;
                 const order = Number($order.textContent);
@@ -32,33 +32,22 @@
                 } else{
                     $order.textContent = order +1;
                 }
-                $input.value = '';
-                $input.focus();
             } else {
-                let 현재단어 = $input.value;
-                if(현재단어[0] === word[word.length - 1]){
-                    word = newWord;
-                    $word.textContent = word;
-                    const order = Number($order.textContent);
-                    if(order+1 > numPlayer){
-                        $order.textContent = 1;
-                    } else{
-                        $order.textContent = order +1;
-                    }
-                } else{
-                    alert("다시 입력해주세요.")
-                    $input.value = '';
-                    $input.focus();
-                }
+                alert("다시 입력해주세요.")
             }
-        }
+            $input.value = '';
+            $input.focus();
+         }
+        
 
         const onInput = (e)=>{
             newWord = e.target.value;
         }
 
+        if(numPlayer){  //promt창에 값을 입력하지 않으면 아래 코드는 실행되지 않는다.
         $button.addEventListener('click', onClickButton);
         $input.addEventListener('input', onInput);
+        }
         
     </script>
 </body>
