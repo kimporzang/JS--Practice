@@ -7,6 +7,59 @@
     <title>끝말잇기</title>
 </head>
 <body>
-    
+    <div><span id="order">1</span>번째 참가자</div>
+    <div>제시어:<span id="word"></span></div>
+    <input type="text">
+    <button>입력</button>
+
+    <script>
+        const $word = document.querySelector("#word");
+        const $input = document.querySelector("input");
+        const $order = document.querySelector("#order");
+        const $button = document.querySelector("button");
+        let word;
+        let newWord;
+
+        const numPlayer = prompt('몇 명이 참가하시나요?')
+        
+        const onClickButton = ()=>{
+            if(!word){
+                word = newWord;
+                $word.textContent = word;
+                const order = Number($order.textContent);
+                if(order+1 > numPlayer){
+                    $order.textContent = 1;
+                } else{
+                    $order.textContent = order +1;
+                }
+                $input.value = '';
+                $input.focus();
+            } else {
+                let 현재단어 = $input.value;
+                if(현재단어[0] === word[word.length - 1]){
+                    word = newWord;
+                    $word.textContent = word;
+                    const order = Number($order.textContent);
+                    if(order+1 > numPlayer){
+                        $order.textContent = 1;
+                    } else{
+                        $order.textContent = order +1;
+                    }
+                } else{
+                    alert("다시 입력해주세요.")
+                    $input.value = '';
+                    $input.focus();
+                }
+            }
+        }
+
+        const onInput = (e)=>{
+            newWord = e.target.value;
+        }
+
+        $button.addEventListener('click', onClickButton);
+        $input.addEventListener('input', onInput);
+        
+    </script>
 </body>
 </html>
