@@ -24,7 +24,54 @@
     <div id="bonus">보너스 : </div>
 
     <script>
-        
+        const $result = document.querySelector("#result")
+        const $bonus = document.querySelector("#bonus")
+
+
+        //1.공을 생성한다. (1~45)
+        const balls = Array(45).fill().map((number,i)=>{return i + 1})
+        let shuffle = [];
+    
+        //2.무작위로 공 뽑기
+        // 45개의 숫자를 무작위로 섞어서 새로운 변수에 담아준다.
+            //1.무작위로 인덱스 뽑기
+            //2.balls 에 있는 숫자 45개를 무작위로 섞는다.
+            //3.무작위로 섞은 숫자를 배열에 집어넣는다.
+
+        while(balls.length > 0){
+            const index = Math.floor(Math.random()*balls.length) // 무작위 인덱스 뽑기
+            const value = balls.splice(index,1)
+            shuffle.push(...value)
+        }
+            //4.shuffle배열에서 6자리는 뽑아서 raffle에, 7자리는 bonus에 넣는다.
+            //5.오름차순으로 정렬한다. 
+        const raffle = shuffle.splice(0,6).sort((a,b)=> a-b);
+        const bonus = shuffle[6]
+        console.log(raffle,bonus);
+
+        //3.일정 시간 후에 실행하기
+            //공을 생성한다.
+            //공을 표시한다.
+            //공에 raffle숫자를 표시한다.
+            //화면에 1초씩 하나씩 표시한다.
+            //타이머 set타이머 함수를 사용한다. 
+
+        for(let i=0; i <= 5; i++){
+             setTimeout(()=>{
+              const $ball = document.createElement('div') //태그를 생성한다.
+               $ball.className = "ball" //클래스이름을 만든다.
+               $result.append($ball) //볼을 화면에 추가한다.
+               $ball.innerHTML = `${raffle[i]}`
+             }, 1000*(i+1));
+        }
+        setTimeout(()=>{
+              const $ball = document.createElement('div') //태그를 생성한다.
+               $ball.className = "ball" //클래스이름을 만든다.
+               $bonus.append($ball) //볼을 화면에 추가한다.
+               $ball.innerHTML = bonus;
+             }, 7000);
+
+
     </script>
 </body>
 </html>
