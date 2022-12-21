@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자야구게임</title>
+</head>
+<body>
+        <form id= "form">
+            <input type="text" id="input">
+            <button id="button">입력</button>
+            <div style="border: solid 1px black; width: 300px; height: 500px; margin-top:10px;" >
+                점수판
+                <div id="logs"></div>
+            </div>
+        </form>
+
+        <script>
+            const $input = document.querySelector("#input");
+            const $form = document.querySelector("#form");
+            const $button = document.querySelector("button");
+            const $logs = document.querySelector("#logs");  
+            
+            let numbers = [];
+            let answer = [];
+            let tries = [];
+            let strike = 0;
+            let ball = 0;
+
+            const createNum = () => {  //1부터 9가 담긴 배열을 만든다.
+                for (let i = 1; i <= 9; i++){
+                    numbers.push(i)
+                }
+            }
+            const drawNumber = ()=>{  //숫자배열에서 중복되지 않게 4개의 숫자를 뽑는다.
+                for(let i = 1; i < 5; i++ ){
+                    let index = Math.floor(Math.random()* numbers.length)
+                    answer.push(numbers[index]);
+                    numbers.splice(index, 1); //index로부터 1개를 제거한다.
+                }
+            }
+
+            createNum();
+            drawNumber();
+        </script>
+</body>
+</html>
