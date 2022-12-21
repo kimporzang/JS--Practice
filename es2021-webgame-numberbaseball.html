@@ -43,11 +43,7 @@
             createNum();
             drawNumber();
 
-            $button.addEventListener("click", ()=>{
-                event.preventDefault();
-                const myAnswer = $input.value;
-                $input.value = '';
-                //1. 규칙이 맞는가?
+            const checkNumber = ()=> {  //규칙 검증
                 //규칙1. 4자리 숫자인가? >> 입력한값 === 4
                 //규칙2. 중복되는 숫자는 없는가? >> new set
                 //규칙3. 이미 시도했는가? 
@@ -60,40 +56,46 @@
                 if(tries.includes(myAnswer)){
                     return alert("이미 입력한 값입니다.")
                 }
+                return true;  //else문 생략
+            }
+            const IncorrectAnswer = ()=>{
+                //숫자가 같은 게 있으면 볼 + 1
+                //배열 안에 겹치는 숫자가 있는지 확인 indexOf
+                //순서까지 맞으면 스트라이크 + 1
+                //자릿수 확인 
+                //indexof 특정 문자 자리값 찾기
+                answer.forEach((number, answerIndex) => {
+                        const index = myAnswer.indexOf(number) //값이 없으면 -1 반환
+                        if(index > -1){
+                             if(index === answerIndex){
+                                 strike += 1;
+                              } else{
+                                 ball += 1;
+                              }
+                        }      
+                    });
+            }
+            $button.addEventListener("click", ()=>{
+                event.preventDefault();
+                const myAnswer = $input.value;
+                $input.value = '';
+                //1. 규칙이 맞는가?
+                const vaild = checkNumber(); 
+                if(!vaild) return;  // 규칙이 틀리면 종료해라
 
                 //2. 정답이 맞는가? > myAnswer === answer
                 if(answer.join('') === myAnswer){
                     alert("홈런!")
                 }
 
-
-
-
-                //3. 힌트 알려주기
-                //5번 시도했는가?
+                //3. 힌트 알려주기(시도 횟수가 5회 미만이라면)
                 if(tries.length >= 5 ){
                     $logs.append(`패배! 정답은 ${answer.join('')}`,document.createElement('br')); 
                     return;
-                } else{ //시도 안했으면 알려주기
-                    //몇 볼 몇 스트라이크인가?
-                    //숫자가 같은 게 있으면 볼 + 1
-                    //배열 안에 겹치는 숫자가 있는지 확인 indexOf
-                    //순서까지 맞으면 스트라이크 + 1
-                    //자릿수 확인 
-                    //indexof 특정 문자 자리값 찾기
-                    for(let i = 0; i < answer.length; i++){  
-                        const index = myAnswer.indexOf(answer[i]) //값이 없으면 -1 반환
-                        if(index > -1){
-                             if(index === i){
-                                 strike += 1;
-                              } else{
-                                 ball += 1;
-                              }
-                        }       
-                    }
+                } else{  
+                    IncorrectAnswer();  //몇 볼 몇 스트라이크인가?
                     $logs.append(`${myAnswer}:${ball}볼 ${strike}스트라이크`, document.createElement('br'));
                     tries.push(myAnswer);
-                    console.log(tries);
                 }
             })
         </script>
