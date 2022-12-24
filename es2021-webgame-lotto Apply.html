@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 추첨기</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        form{
+            display: flex;
+        }
+
+        .button{
+            margin: 2px;
+            width: 40px;
+            height: 40px;
+        }
+        .ball{
+            display: inline-block;
+            border: 1px solid black;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 20px;
+            text-align: center;
+            margin-right: 20px;
+        }
+
+        input{
+            width: 400px;
+            padding: 5px;
+        }
+
+        #start-btn{
+            padding: 5px;
+            display: none;
+        }
+
+        #button-box{
+            width: 500px;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form >
+        <input type="text" id="myNumber">  
+        <button id="start-btn">뽑기</button>
+    </form>
+    <div id="button-box"></div>
+    <div id="result">추첨 결과 :</div>
+    <div id="bonus">보너스 : </div>
+
+    <script>
+        const $result = document.querySelector("#result")
+        const $bonus = document.querySelector("#bonus")
+        const $buttonBox = document.querySelector("#button-box")
+        const $startBtn = document.querySelector("#start-btn")
+
+        let $myNumber = document.querySelector("#myNumber")
+        let myNumber = [];
+        
+        function createButtons(){
+             for(let i = 1; i <= 44; i++){
+                let buttons = document.createElement("button") 
+                $buttonBox.append(buttons);
+                buttons.textContent = i;
+                buttons.className = 'button';
+
+                buttons.onclick = (e)=>{
+                      number = e.target.textContent;
+                        if(myNumber.length < 8){
+                           $myNumber.value += `${number}\r`;
+                           myNumber.push(number);
+                           if(myNumber.length == 7){
+                            $startBtn.style.display = 'block';  
+                           }              
+                        } else{
+                            alert("더이상 선택할 수 없습니다.")
+                            return;
+                        }
+                 };
+            };
+        }
+
+        createButtons();
+
+
+            
+        
+
+        function hello(e){
+            alert(e.target.textContent);
+        }
+
+
+
+
+
+
+
+
+
+
+        let shuffle = [];
+        let raffle = [];
+        let bonus = null;
+
+        const balls = Array(45).fill().map((number,i)=>{return i + 1})
+        
+        const shuffleBalls = ()=>{
+             while(balls.length > 0){
+               const index = Math.floor(Math.random()*balls.length) // 무작위 인덱스 뽑기
+               const value = balls.splice(index,1)
+               shuffle.push(...value)
+             }
+             raffle = shuffle.splice(0,6).sort((a,b)=> a-b);
+             bonus = shuffle[6]
+        }
+        
+
+        const createBalls = (num,$parents)=>{
+            const $ball = document.createElement('div') //태그를 생성한다.
+            $ball.className = "ball" //클래스이름을 만든다.
+            $ball.innerHTML = num;
+            $bonus.append($ball)
+            $parents.append($ball)
+        }
+
+        const showBall = ()=>{
+            for(let i=0; i <= 5; i++){
+                setTimeout(()=>{
+                    createBalls(`${raffle[i]}`,$result);
+                }, 1000*(i+1));
+             }
+            setTimeout(()=>{
+                createBalls(bonus,$bonus);
+             }, 7000);
+        }
+
+        // shuffleBalls();
+        // showBall();
+
+    </script>
+</body>
+</html>
