@@ -66,25 +66,25 @@
         let $myNumber = document.querySelector("#myNumber")
         let myNumber = [];
         
+        //버튼 생성
         function createButtons(){
              for(let i = 1; i <= 44; i++){
                 let buttons = document.createElement("button") 
                 $buttonBox.append(buttons);
                 buttons.textContent = i;
                 buttons.className = 'button';
-
                 buttons.onclick = (e)=>{
                       number = e.target.textContent;
-                        if(myNumber.length < 8){
-                           $myNumber.value += `${number}\r`;
-                           myNumber.push(number);
-                           if(myNumber.length == 7){
-                            $startBtn.style.display = 'block';  
-                           }              
-                        } else{
-                            alert("더이상 선택할 수 없습니다.")
-                            return;
-                        }
+                      if(myNumber.length < 8){
+                         $myNumber.value += `${number}\r`;
+                         myNumber.push(number);
+                         if(myNumber.length == 7){
+                           $startBtn.style.display = 'block';  
+                         }              
+                      }else{
+                        alert("더이상 선택할 수 없습니다.")
+                        return;
+                      }
                  };
             };
         }
@@ -92,12 +92,6 @@
         createButtons();
 
 
-            
-        
-
-        function hello(e){
-            alert(e.target.textContent);
-        }
 
 
 
