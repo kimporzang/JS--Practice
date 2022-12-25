@@ -93,15 +93,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
         let shuffle = [];
         let raffle = [];
         let bonus = null;
@@ -138,8 +129,16 @@
              }, 7000);
         }
 
-        // shuffleBalls();
-        // showBall();
+
+
+
+        $startBtn.addEventListener('click',(e)=>{
+            e.preventDefault();
+            shuffleBalls();
+            shuffleBalls();
+            showBall();
+        })
+
 
     </script>
 </body>
