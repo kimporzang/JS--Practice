@@ -49,6 +49,7 @@
                 <button type="button" class="bg-gray-50 text-gray-500 text-sm menu-remove-button">삭제</button>
                 </li>`;
             }
+            $menuList.insertAdjacentHTML('beforeend',menuItemTemplate(newMenu));
         };
     })
     
