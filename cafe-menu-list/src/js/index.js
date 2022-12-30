@@ -31,21 +31,27 @@
     const $submitBtn = document.querySelector("#espresso-menu-submit-button")
     const $form = document.querySelector("#espresso-menu-form")
     const $menuList = document.querySelector("#espresso-menu-list")
-    
-
     let newMenu;
+
+
 
     $form.addEventListener('submit',(e)=>{
         e.preventDefault(); 
     })
 
-    $input.addEventListener('keypress',(e)=>{
-        newMenu = $input.value;
+    $input.addEventListener('keypress',(e)=>{ 
         if(e.keyCode == 13){
-            $menuList.append(`${newMenu}`,document.createElement('li'))
-            $input.value = '';
-        }
+            newMenu = $input.value;
+            const menuItemTemplate = (newMenu) => {
+                return `<li class ="menu-list-item d-flex items-center py-2">
+                <span class="w-100 pl-2 menu-name">${newMenu}</span>
+                <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
+                <button type="button" class="bg-gray-50 text-gray-500 text-sm menu-remove-button">삭제</button>
+                </li>`;
+            }
+        };
     })
+    
 
     $submitBtn.addEventListener('click',(e)=>{
         //li태그 추가
