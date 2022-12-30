@@ -16,7 +16,7 @@
     //[x]메뉴의 이름을 입력 받고 엔터키 입력으로 추가한다.
     //[x]총 메뉴 갯수를 count하여 상단에 보여준다.
     //[x]메뉴가 추가되고 나면, input은 빈 값으로 초기화한다.
-    //[]사용자 입력값이 빈 값이라면 추가되지 않는다.
+    //[x]사용자 입력값이 빈 값이라면 추가되지 않는다.
 
 //TODO 메뉴 수정
     //메뉴의 수정 버튼클릭 이벤트를 받고, 메뉴 수정하는 모달창이 뜬다.
@@ -35,9 +35,6 @@
     let newMenu;
 
 
-    
-
-
 
     $form.addEventListener('submit',(e)=>{
         e.preventDefault(); 
@@ -45,32 +42,34 @@
 
 
     function addMenu(){
-        const menuItemTemplate = (newMenu) => {
-            return `<li class ="menu-list-item d-flex items-center py-2">
-            <span class="w-100 pl-2 menu-name">${newMenu}</span>
-            <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
-            <button type="button" class="bg-gray-50 text-gray-500 text-sm menu-remove-button">삭제</button>
-            </li>`;
-        }   
-
-        const addMenuName = ()=>{
+        const addMenuItem = ()=>{
+            if($input.value == ""){
+                alert("메뉴를 입력해주세요")
+                return;
+            }
             newMenu = $input.value;
+            const menuItemTemplate = (newMenu) => {
+                return `<li class ="menu-list-item d-flex items-center py-2">
+                <span class="w-100 pl-2 menu-name">${newMenu}</span>
+                <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
+                <button type="button" class="bg-gray-50 text-gray-500 text-sm menu-remove-button">삭제</button>
+                </li>`;
+            }   
             $menuList.insertAdjacentHTML('beforeend',menuItemTemplate(newMenu));
             $input.value = '';
+            const $countMenu = $menuList.querySelectorAll("li").length;
+            $count.innerText = `총 ${$countMenu}개`;
         }
 
         $input.addEventListener('keypress',(e)=>{ 
-            if(e.keyCode == 13){
-                addMenuName();
-                const $countMenu = $menuList.querySelectorAll("li").length;
-                $count.innerText = `총 ${$countMenu}개`;
-        
-            }
+            if(e.keyCode !== 13){
+                return
+            };
+            addMenuItem();
         });
         
-
         $submitBtn.addEventListener('click',(e)=>{
-            addMenuName();
+            addMenuItem();
         })
 
     }
