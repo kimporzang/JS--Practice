@@ -14,8 +14,8 @@
 //TODO 메뉴 추가
     //[x]메뉴의 이름을 입력 받고 확인 버튼을 누르면 메뉴가 추가된다.
     //[x]메뉴의 이름을 입력 받고 엔터키 입력으로 추가한다.
-    //[]총 메뉴 갯수를 count하여 상단에 보여준다.
-    //[]메뉴가 추가되고 나면, input은 빈 값으로 초기화한다.
+    //[x]총 메뉴 갯수를 count하여 상단에 보여준다.
+    //[x]메뉴가 추가되고 나면, input은 빈 값으로 초기화한다.
     //[]사용자 입력값이 빈 값이라면 추가되지 않는다.
 
 //TODO 메뉴 수정
@@ -31,7 +31,11 @@
     const $submitBtn = document.querySelector("#espresso-menu-submit-button")
     const $form = document.querySelector("#espresso-menu-form")
     const $menuList = document.querySelector("#espresso-menu-list")
+    const $count = document.querySelector(".menu-count")
     let newMenu;
+
+
+    
 
 
 
@@ -58,12 +62,17 @@
         $input.addEventListener('keypress',(e)=>{ 
             if(e.keyCode == 13){
                 addMenuName();
-            };
-        })
+                const $countMenu = $menuList.querySelectorAll("li").length;
+                $count.innerText = `총 ${$countMenu}개`;
+        
+            }
+        });
+        
 
         $submitBtn.addEventListener('click',(e)=>{
             addMenuName();
         })
+
     }
     addMenu();
 
