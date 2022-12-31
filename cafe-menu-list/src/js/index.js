@@ -19,8 +19,8 @@
     //[x]사용자 입력값이 빈 값이라면 추가되지 않는다.
 
 //TODO 메뉴 수정
-    //[]메뉴의 수정 버튼클릭 이벤트를 받고, 메뉴 수정하는 모달창이 뜬다.
-    //-[] 'promt' 인터페이스를 통해 신규메뉴명을 입력받고, 확인버튼을 누르면 메뉴가 업데이트된다.
+    //[x]메뉴의 수정 버튼클릭 이벤트를 받고, 메뉴 수정하는 모달창이 뜬다.
+    //-[x] 'promt' 인터페이스를 통해 신규메뉴명을 입력받고, 확인버튼을 누르면 메뉴가 업데이트된다.
 
 //TODO 메뉴 삭제   
     //메뉴 삭제 버튼클릭 이벤트를 받고, 메뉴를 삭제 컨펌 모달창이 뜬다.
@@ -84,3 +84,15 @@
         })
     }
     editMenu();
+
+    function removeMenu(){
+        $menuList.addEventListener('click', (e)=>{
+                if(e.target.classList.contains("menu-remove-button")){
+                    if(confirm("정말로 삭제하시겠습니까?")){ //true confirm에서 확인버튼은 true, 취소 버튼은 false를 나타낸다.
+                        e.target.parentElement.remove();
+                    }
+                }
+        });
+    }
+
+    removeMenu();
