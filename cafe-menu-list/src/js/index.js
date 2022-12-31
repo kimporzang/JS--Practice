@@ -75,7 +75,7 @@
             countMenu();
         }
 
-        //메뉴 입력 시 작동
+        //메뉴 입력 시 
         $input.addEventListener('keypress',(e)=>{ 
             if(e.keyCode !== 13){
                 return
