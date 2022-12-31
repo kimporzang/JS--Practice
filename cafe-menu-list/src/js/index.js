@@ -32,21 +32,19 @@
     const $form = document.querySelector("#espresso-menu-form")
     const $menuList = document.querySelector("#espresso-menu-list")
     const $count = document.querySelector(".menu-count")
-    let newMenu;
 
 
+    function MenuApp(){
+        $form.addEventListener('submit',(e)=>{
+            e.preventDefault(); 
+        })
 
-    $form.addEventListener('submit',(e)=>{
-        e.preventDefault(); 
-    })
-
-    function addMenu(){
-        const addMenuItem = ()=>{
+        const addMenuName = ()=>{
             if($input.value == ""){
                 alert("메뉴를 입력해주세요")
                 return;
             }
-            newMenu = $input.value;
+            const newMenu = $input.value;
             const menuItemTemplate = (newMenu) => {
                 return `<li class ="menu-list-item d-flex items-center py-2">
                 <span class="w-100 pl-2 menu-name">${newMenu}</span>
@@ -56,43 +54,49 @@
             }   
             $menuList.insertAdjacentHTML('beforeend',menuItemTemplate(newMenu));
             $input.value = '';
-            const $countMenu = $menuList.querySelectorAll("li").length;
-            $count.innerText = `총 ${$countMenu}개`;
+            countMenu();
         }
 
+        const countMenu = ()=>{
+              const $countMenu = $menuList.querySelectorAll("li").length;
+              $count.innerText = `총 ${$countMenu}개`;
+        }
+
+        const editMenuName = (e)=>{
+            const $menuName = e.target.parentElement.querySelector(".menu-name") //버튼이 있는 리스트의 텍스트를 가져온다.
+            const editMenuName = prompt("수정할 메뉴를 입력해주세요.",$menuName.innerText) // 수정된 메뉴의 값을 가져온다.
+            $menuName.innerText = editMenuName; //queryselector를 이용해 메뉴 이름만 바꿔준다. 나머지 버튼들은 그대로
+        }
+        
+        const removeMenuName = (e)=>{
+            if(confirm("정말로 삭제하시겠습니까?")){ //true confirm에서 확인버튼은 true, 취소 버튼은 false를 나타낸다.
+                e.target.parentElement.remove();  //우리가 선택된 li리스트 항목을 삭제해줘.
+            }
+            countMenu();
+        }
+
+        //메뉴 입력 시 작동
         $input.addEventListener('keypress',(e)=>{ 
             if(e.keyCode !== 13){
                 return
             };
-            addMenuItem();
+            addMenuName();
         });
-        
-        $submitBtn.addEventListener('click',(e)=>{
-            addMenuItem();
-        })
+        $submitBtn.addEventListener('click',addMenuName)
 
-    }
-    addMenu();
-
-    function editMenu(){
+        //수정 버튼 클릭 시 
         $menuList.addEventListener('click', (e)=>{
             if(e.target.classList.contains("menu-edit-button")){
-                const menuName = e.target.parentElement.querySelector(".menu-name").innerText //버튼이 있는 리스트의 텍스트를 가져온다.
-                const editMenuName = prompt("수정할 메뉴를 입력해주세요.",menuName) // 수정된 메뉴의 값을 가져온다.
-                e.target.parentElement.querySelector(".menu-name").innerText = editMenuName; //queryselector를 이용해 메뉴 이름만 바꿔준다. 나머지 버튼들은 그대로
+                editMenuName(e);
             }
         })
-    }
-    editMenu();
-
-    function removeMenu(){
+        
+        //삭제 버튼 클릭 시
         $menuList.addEventListener('click', (e)=>{
                 if(e.target.classList.contains("menu-remove-button")){
-                    if(confirm("정말로 삭제하시겠습니까?")){ //true confirm에서 확인버튼은 true, 취소 버튼은 false를 나타낸다.
-                        e.target.parentElement.remove();
-                    }
+                    removeMenuName(e);
                 }
         });
-    }
+    }   
 
-    removeMenu();
+    MenuApp();
