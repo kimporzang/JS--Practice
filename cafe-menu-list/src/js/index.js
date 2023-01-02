@@ -34,7 +34,18 @@
     const $count = document.querySelector(".menu-count")
 
 
+    const store = {
+        setLocalStrorage(menu) {
+            localStorage.setItem("menu", JSON.stringify(menu));
+        },
+        getLocalStrorage(){
+            localStorage.getItem("menu");
+        },
+    };
+
     function MenuApp(){
+        this.menu = [];
+        
         $form.addEventListener('submit',(e)=>{
             e.preventDefault(); 
         })
@@ -45,14 +56,15 @@
                 return;
             }
             const newMenu = $input.value;
-            const menuItemTemplate = (newMenu) => {
+            this.menu.push({name: newMenu})
+            const template = this.menu.map((menuItem)=>{
                 return `<li class ="menu-list-item d-flex items-center py-2">
-                <span class="w-100 pl-2 menu-name">${newMenu}</span>
+                <span class="w-100 pl-2 menu-name">${menuItem.name}</span>
                 <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
                 <button type="button" class="bg-gray-50 text-gray-500 text-sm menu-remove-button">삭제</button>
                 </li>`;
-            }   
-            $menuList.insertAdjacentHTML('beforeend',menuItemTemplate(newMenu));
+            }).join("");
+            $menuList.innerHTML = template; //한꺼번에 바꿔주기
             $input.value = '';
             countMenu();
         }
@@ -98,5 +110,5 @@
                 }
         });
     }   
-
-    MenuApp();
+    const app = new MenuApp();
+    
