@@ -39,13 +39,33 @@
             localStorage.setItem("menu", JSON.stringify(menu));
         },
         getLocalStrorage(){
-            localStorage.getItem("menu");
+            return JSON.parse(localStorage.getItem("menu"));
         },
     };
 
+
+
     function MenuApp(){
-        this.menu = [];
-        
+        this.menu = []; //초기화해주는 이유는 배열이라는 타입이라는 걸 명시하기 위함, 어떤 형태로 데이터를 관리하겠다.
+        this.init = () => {
+            if(store.getLocalStrorage()){
+                this.menu = store.getLocalStrorage();
+                render();
+            }
+        }
+ 
+        const render = () => {
+            const template = this.menu.map((menuItem,index)=>{
+                return `<li data-menu-id="${index}" class ="menu-list-item d-flex items-center py-2">
+                <span class="w-100 pl-2 menu-name">${menuItem.name}</span>
+                <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
+                <button type="button" class="bg-gray-50 text-gray-500 text-sm menu-remove-button">삭제</button>
+                </li>`;
+            }).join("");
+            $menuList.innerHTML = template; //한꺼번에 바꿔주기
+            countMenu();
+        }
+
         $form.addEventListener('submit',(e)=>{
             e.preventDefault(); 
         })
@@ -56,17 +76,10 @@
                 return;
             }
             const newMenu = $input.value;
-            this.menu.push({name: newMenu})
-            const template = this.menu.map((menuItem)=>{
-                return `<li class ="menu-list-item d-flex items-center py-2">
-                <span class="w-100 pl-2 menu-name">${menuItem.name}</span>
-                <button type="button" class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">수정</button>
-                <button type="button" class="bg-gray-50 text-gray-500 text-sm menu-remove-button">삭제</button>
-                </li>`;
-            }).join("");
-            $menuList.innerHTML = template; //한꺼번에 바꿔주기
+            this.menu.push({ name: newMenu })
+            store.setLocalStrorage(this.menu); //로컬스토리지에 저장
+            render();
             $input.value = '';
-            countMenu();
         }
 
         const countMenu = ()=>{
@@ -75,9 +88,12 @@
         }
 
         const editMenuName = (e)=>{
+            const menuId = e.target.closest("li").dataset.menuId
             const $menuName = e.target.parentElement.querySelector(".menu-name") //버튼이 있는 리스트의 텍스트를 가져온다.
             const editMenuName = prompt("수정할 메뉴를 입력해주세요.",$menuName.innerText) // 수정된 메뉴의 값을 가져온다.
             $menuName.innerText = editMenuName; //queryselector를 이용해 메뉴 이름만 바꿔준다. 나머지 버튼들은 그대로
+            this.menu[menuId].name = editMenuName;
+            store.setLocalStrorage(this.menu);
         }
         
         const removeMenuName = (e)=>{
@@ -111,4 +127,4 @@
         });
     }   
     const app = new MenuApp();
-    
+    app.init();
